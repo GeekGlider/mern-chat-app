@@ -7,9 +7,12 @@ import authRoutes from './routes/auth.routes.js';
 import messageRoutes from './routes/message.routes.js';
 import userRoutes from './routes/user.routes.js';
 import { app, server } from './socket/socket.js';
+import path from 'path';
 
 // const app = express();
 const PORT = process.env.PORT || 5000;
+
+const __dirname = path.resolve(); // static files
 
 dotenv.config();
 
@@ -27,6 +30,12 @@ await connectDB();
 app.use('/api/auth',authRoutes);
 app.use('/api/messages',messageRoutes);
 app.use('/api/users',userRoutes);
+
+app.use(express.static(path.join(__dirname,'/client/dist')));
+
+app.get( "*", (req,res)=>{
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"))
+})
 
 
 server.listen(PORT,()=>{
