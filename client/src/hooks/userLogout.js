@@ -19,7 +19,6 @@ const userLogout = () => {
         if (data.error) {
             throw new Error(data.error);
         }
-        console.log(data);
         localStorage.removeItem("chat-user");
         setauth(null);
 
